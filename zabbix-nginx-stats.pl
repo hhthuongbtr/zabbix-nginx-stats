@@ -50,15 +50,18 @@ my $parseerrors = 0;
 my $request_time_total = 0;
 my $upstream_time_total = 0;
 my $statuscount = {
-	'301' => 0,
-	'302' => 0,
-	'200' => 0,
-	'404' => 0,
-	'403' => 0,
-	'500' => 0,
-	'503' => 0,
+        '301' => 0,
+        '302' => 0,
+        '200' => 0,
+        '201' => 0,
+        '204' => 0,
+        '400' => 0,
+        '404' => 0,
+        '403' => 0,
+        '500' => 0,
+        '503' => 0,
 
-	'other' => 0,
+        'other' => 0,
 };
 
 
@@ -82,17 +85,17 @@ for my $cfg (@$CONFIG) {
 while(<>){
   if (
     my (
-	$remote_addr,
-	$hostname,
-	$remote_user,
-	$time_local,
-	$request,
-	$status,
-	$body_bytes_sent,
-	$http_referer,
-	$http_user_agent,
-	$request_time,
-	$upstream_response_time) = m/(\S+) (\S+) (\S+) \[(.*?)\]\s+"(.*?)" (\S+) (\S+) "(.*?)" "(.*?)" ([\d\.]+)(?: ([\d\.]+|-))?/
+        $remote_addr,
+        $hostname,
+        $remote_user,
+        $time_local,
+        $request,
+        $status,
+        $body_bytes_sent,
+        $http_referer,
+        $http_user_agent,
+        $request_time,
+        $upstream_response_time) = m/(\S+) (\S+) (\S+) \[(.*?)\]\s+"(.*?)" (\S+) (\S+) "(.*?)" "(.*?)" ([\d\.]+)(?: ([\d\.]+|-))?/
     ) {
 my $l = $_;
     my $time = str2time($time_local);
@@ -134,7 +137,7 @@ sub sendstat {
 
   my $hostparam = defined $cfg->{host} ? ' -s "'.$cfg->{host}.'" ':'';
   print $datafh (defined $cfg->{host} ? $cfg->{host} : '-') . " nginx[$key] $value\n";
-  
+
   #my $cmd = "$ZABBIX_SENDER $hostparam -c $ZABBIX_CONF -k \"nginx[$key]\" -o \"$value\" >/dev/null";
   #if ($DEBUG) {
   #  print $cmd . "\n";
@@ -196,4 +199,3 @@ my $cmd = "$ZABBIX_SENDER -vv -c $ZABBIX_CONF -i " . $datafh->filename() . " 2>&
 print $cmd."\n";
 system "cp ".$datafh->filename()." /tmp/test.txt";
 system $cmd unless $DRYRUN;
-
