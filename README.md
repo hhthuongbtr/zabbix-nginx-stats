@@ -20,9 +20,39 @@ Installation/Configuration:
 ### install dependencies
 
 * logtail2 (debian: apt-get install logtail)
+    * for redhat: you need custom instal from source
+ 
+      install dev tool
+      ```shell
+      sudo dnf groupinstall "Development Tools"
+      sudo dnf install make gcc
+      ```
+      install logtail2 from source:
+      ```shell
+      git clone https://github.com/icyfork/logcheck.git
+      make install
+      ```
 * Perl
 * Statistics::Descriptive, Date::Parse and File::Temp
     * for debian: install packages libstatistics-descriptive-perl libtimedate-perl
+    * For redhat: install packages perl-DateTime perl perl-CPAN perl-devel, so the first you need run sudo dnf config-manager --set-enabled crb
+
+      Here's how you can install a Perl module from CPAN:
+
+      1. First, ensure that you have Perl and its development tools installed:
+      ```shell
+      sudo dnf install perl perl-CPAN perl-devel
+      ```
+      2. Next, run the CPAN shell:
+      ```shell
+      sudo cpan
+      ```
+      3. Inside the CPAN shell, you can install the Statistics::Descriptive module by running:
+      ```shell
+      install Statistics::Descriptive
+      ```
+
+      Once the installation is complete, you can exit the CPAN shell by typing exit.
 
 ### configure logfile output:
 
